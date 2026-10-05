@@ -253,7 +253,7 @@ curl -H "X-Figma-Token: ${VITE_FIGMA_ACCESS_TOKEN}" \
 
 ## 🎯 Next Steps
 
-1. ✅ Set `VITE_FIGMA_ACCESS_TOKEN` in `.env.local`
+1. ⬜ Set `VITE_FIGMA_ACCESS_TOKEN` in `.env.local` (required per machine)
 2. ✅ UI component added to Settings
 3. ✅ Service layer ready
 4. 🔄 Test the export functionality
