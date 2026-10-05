@@ -33,12 +33,19 @@ export const authMiddleware = (
     }
 
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const secret = process.env.JWT_SECRET?.trim();
+
+    // Fail closed: never verify (or accept) a token when the signing secret is unset.
+    if (!secret) {
+      throw new AppError('Unauthorized', 401);
+    }
 
     // Verify token
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET!
-    ) as JWTPayload;
+    const decoded = jwt.verify(token, secret) as Partial<JWTPayload>;
+
+    if (!decoded.userId || !decoded.tenantId) {
+      throw new AppError('Invalid token', 401);
+    }
 
     // Attach user info to request
     req.user = {

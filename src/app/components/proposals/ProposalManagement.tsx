@@ -49,6 +49,18 @@ export function ProposalManagement() {
     loadProposals();
   }, []);
 
+  const authHeaders = (json = false): HeadersInit => {
+    const headers: Record<string, string> = {};
+    if (json) {
+      headers['Content-Type'] = 'application/json';
+    }
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+    return headers;
+  };
+
   const loadProposals = async () => {
     setLoading(true);
     try {
@@ -59,7 +71,8 @@ export function ProposalManagement() {
       const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
       
       const response = await fetch(`${API_URL}/api/v1/proposals`, {
-        signal: controller.signal
+        signal: controller.signal,
+        headers: authHeaders(),
       });
       clearTimeout(timeoutId);
       
@@ -105,7 +118,7 @@ export function ProposalManagement() {
       if (!proposal.recommendation) {
         const configResponse = await fetch(`${API_URL}/api/v1/sales/configure`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: authHeaders(true),
           body: JSON.stringify({
             company_size: proposal.company_size,
             industry: proposal.industry,
@@ -124,8 +137,8 @@ export function ProposalManagement() {
       // Generate invoice
       const invoiceResponse = await fetch(`${API_URL}/api/v1/proposals/${proposal.id}/invoice`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ proposal }),
+        headers: authHeaders(true),
+        body: JSON.stringify({}),
       });
 
       if (invoiceResponse.ok) {

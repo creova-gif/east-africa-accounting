@@ -13,12 +13,12 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   // Log error
+  // Do not log request bodies: proposal and invoice handlers receive customer PII.
   logger.error('Error:', {
     message: err.message,
     stack: err.stack,
     url: req.url,
     method: req.method,
-    body: req.body,
   });
 
   // Handle AppError (custom errors)

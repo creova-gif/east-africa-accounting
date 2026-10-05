@@ -107,8 +107,12 @@ app.use(`${API_PREFIX}/contacts`, contactsRoutes);
 app.use(`${API_PREFIX}/reports`, reportsRoutes);
 app.use(`${API_PREFIX}/tax-returns`, taxRoutes);
 app.use(`${API_PREFIX}/ai`, aiRoutes);
-app.use(`${API_PREFIX}/sales`, salesRoutes); // NEW: AI Sales Configurator
-app.use(`${API_PREFIX}/proposals`, proposalsRoutes); // NEW: Customer proposals
+// Sales configure returns a pricing recommendation from the caller's own input.
+// It does not read stored customer records.
+app.use(`${API_PREFIX}/sales`, salesRoutes);
+// POST /proposals is public lead intake. List, read, status, and invoice require
+// a JWT and only return the caller's tenant (see proposals.routes.ts).
+app.use(`${API_PREFIX}/proposals`, proposalsRoutes);
 
 // 404 handler
 app.use((req, res) => {
