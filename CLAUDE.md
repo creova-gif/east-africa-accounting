@@ -1,17 +1,28 @@
-# CLAUDE.md — east-africa-accounting
+## gstack (REQUIRED — global install)
 
-## Project Overview
-Part of the CREOVA multi-vertical portfolio. See this repo's README for product-specific details.
+**Before doing ANY work, verify gstack is installed:**
 
-## Technology Stack
-React, Vite, TypeScript.
+```bash
+_GS=""
+for _D in "${GSTACK_ROOT:-}" "$HOME/.claude/skills/gstack" "$HOME/.codex/skills/gstack" "$HOME/.factory/skills/gstack" "$HOME/.kiro/skills/gstack" "$HOME/.config/opencode/skills/gstack" "$HOME/.slate/skills/gstack" "$HOME/.cursor/skills/gstack" "$HOME/.openclaw/skills/gstack" "$HOME/.hermes/skills/gstack" "$HOME/.gbrain/skills/gstack" "$HOME/.copilot/skills/gstack" "$HOME/.gstack/repos/gstack"; do
+  [ -z "$_GS" ] && [ -n "$_D" ] && [ -d "$_D/bin" ] && _GS="$_D"
+done
+[ -n "$_GS" ] && echo "GSTACK_OK: $_GS" || echo "GSTACK_MISSING"
+```
 
-## CI
-Build-only (`npm ci && npm run build`). No lint or test scripts exist yet — do not claim test coverage that isn't there.
+If GSTACK_MISSING: STOP. Do not proceed. Tell the user:
 
-## AI Agent Rules
-- This repo has not had a deep security/backend audit in this engagement. Before adding backend-dependent features, verify directly whether a real, reachable Supabase project (or other backend) is actually connected — several repos in this portfolio reference project IDs that turned out to be paused or nonexistent.
-- Before adding a new "Live"/"Active" status label to any UI, confirm the underlying data is real — this portfolio has a documented history of demo-mode features being mislabeled as live.
+> gstack is required for all AI-assisted work in this repo.
+> Install it:
+> ```bash
+> git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack
+> cd ~/.claude/skills/gstack && ./setup --team
+> ```
+> Then restart your AI coding tool.
 
-## Definition of Done
-Build passes. Any new backend dependency is verified as real and reachable, not assumed.
+Do not skip skills, ignore gstack errors, or work around missing gstack.
+
+Using gstack skills: After install, skills like /qa, /ship, /review, /investigate,
+and /browse are available. Use /browse for all web browsing (Aside first, the bundled gstack browser as fallback).
+Use the resolved install path above for gstack file paths
+(default: ~/.claude/skills/gstack).
