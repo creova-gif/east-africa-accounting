@@ -13,11 +13,13 @@ This guide explains how to integrate the East Africa Accounting Platform with Fi
 2. Navigate to **Account** → **Personal Access Tokens**
 3. Click **Generate new token**
 4. Copy the token (you won't see it again!)
-5. Add to your `.env.local` file:
+5. Copy `.env.example` to `.env.local` in the project root and set the variable below. `.env` and `.env.local` are gitignored. Restart `npm run dev` after editing.
 
 ```env
-VITE_FIGMA_ACCESS_TOKEN=figd_your_token_here
+VITE_FIGMA_ACCESS_TOKEN=your_figma_personal_access_token
 ```
+
+`src/services/figma.service.ts` reads `import.meta.env.VITE_FIGMA_ACCESS_TOKEN` and sends it as the `X-Figma-Token` header. Do not commit the real token.
 
 ### 2. Get Figma File Key
 

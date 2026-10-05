@@ -1,32 +1,20 @@
-# ✅ Figma Integration Setup Complete!
+# Figma Integration Setup
 
-## 🎉 Your Figma Access Token is Configured
+## Supply the Figma access token
 
-Your Figma personal access token has been added to the environment configuration:
-- Token: `figd_U52ORm6sCNXDX_W5DQY9nLEIvh_DjWoKdLmr4C9m`
-- Location: `/.env.local`
+The Figma integration reads a personal access token from the environment. Do not put the token in this repository.
 
----
+1. Copy `.env.example` to `.env.local` in the project root. `.env` and `.env.local` are listed in `.gitignore`.
+2. Set `VITE_FIGMA_ACCESS_TOKEN` to a token created at [Figma Settings → Personal Access Tokens](https://www.figma.com/settings).
+3. Restart the Vite dev server (`npm run dev`) so the value is loaded.
 
-## ⚠️ IMPORTANT SECURITY NOTE
+```env
+VITE_FIGMA_ACCESS_TOKEN=your_figma_personal_access_token
+```
 
-**Your Figma access token is now publicly visible in this conversation.** 
+`src/services/figma.service.ts` sends that value as the `X-Figma-Token` header. Vite exposes only variables prefixed with `VITE_` to client code.
 
-For security, you should:
-
-1. **Rotate this token immediately** after testing:
-   - Go to [Figma Settings → Personal Access Tokens](https://www.figma.com/settings)
-   - Delete the current token
-   - Generate a new one
-   - Update `.env.local` with the new token
-
-2. **Never commit `.env.local` to Git**:
-   - It's already in `.gitignore`
-   - Always keep access tokens private
-
-3. **Use environment-specific tokens**:
-   - Development token for local work
-   - Production token (if needed) stored in secure environment variables
+If a token was ever committed or shared, rotate it in Figma and update `.env.local`. Do not commit `.env` or `.env.local`.
 
 ---
 
@@ -103,12 +91,14 @@ The Figma Integration is now available in your app:
 ## 📁 Files Created
 
 ### 1. Environment Configuration
-**File:** `/.env.local`
+**File:** `.env.local` (local only; copy from `.env.example`)
 ```env
-VITE_FIGMA_ACCESS_TOKEN=figd_U52ORm6sCNXDX_W5DQY9nLEIvh_DjWoKdLmr4C9m
+VITE_FIGMA_ACCESS_TOKEN=your_figma_personal_access_token
 VITE_API_URL=http://localhost:5000/api
 VITE_APP_NAME=EastBooks - Accounting for East Africa
 ```
+
+`VITE_FIGMA_ACCESS_TOKEN` is required for Figma API calls. `VITE_API_URL` and `VITE_APP_NAME` are optional app settings and are not secrets.
 
 ### 2. Figma Service
 **File:** `/src/services/figma.service.ts`
@@ -232,12 +222,12 @@ Header: X-Figma-Token: YOUR_TOKEN
 ## 🛠️ Troubleshooting
 
 ### Issue: "Access token not found"
-**Solution:** Make sure `.env.local` exists in the project root
+**Solution:** Create `.env.local` from `.env.example`, set `VITE_FIGMA_ACCESS_TOKEN`, and restart `npm run dev`.
 
 ### Issue: "Unauthorized" error
-**Solution:** Check if your Figma token is valid:
+**Solution:** Check that `VITE_FIGMA_ACCESS_TOKEN` in `.env.local` is valid. Export it in the shell first, then:
 ```bash
-curl -H "X-Figma-Token: figd_U52ORm6sCNXDX_W5DQY9nLEIvh_DjWoKdLmr4C9m" \
+curl -H "X-Figma-Token: ${VITE_FIGMA_ACCESS_TOKEN}" \
   https://api.figma.com/v1/me
 ```
 
@@ -263,7 +253,7 @@ curl -H "X-Figma-Token: figd_U52ORm6sCNXDX_W5DQY9nLEIvh_DjWoKdLmr4C9m" \
 
 ## 🎯 Next Steps
 
-1. ✅ Token configured
+1. ⬜ Set `VITE_FIGMA_ACCESS_TOKEN` in `.env.local` (required per machine)
 2. ✅ UI component added to Settings
 3. ✅ Service layer ready
 4. 🔄 Test the export functionality
